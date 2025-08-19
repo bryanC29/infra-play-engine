@@ -3,7 +3,6 @@ package simulator
 import (
 	"errors"
 	"fmt"
-	"log"
 	"simengine/types"
 	"sort"
 )
@@ -23,9 +22,6 @@ func BuildGraph(d types.Design) (*types.Graph, error) {
 		g.Index[n.ID] = i
 		g.Nodes[i] = n
 	}
-
-	log.Printf("hello")
-	log.Printf("%v", g.Index)
 
 	entryIdx, entryExist := g.Index["entry"]
 	if !entryExist {
@@ -104,7 +100,7 @@ func topoKahn(out [][]int, in [][]int) ([]int, bool) {
 		}
 	}
 
-	for i := range len(q) {
+	for i := 0; i < len(q); i++ {
 		v := q[i]
 		order = append(order, v)
 		for _, w := range out[v] {
@@ -128,7 +124,7 @@ func reachable(out [][]int, src, dst int) bool {
 	q := []int{src}
 	vis[src] = true
 	
-	for i := range len(q) {
+	for i := 0; i < len(q); i++ {
 		v := q[i]
 		
 		if v == dst {

@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"simengine/simulator"
 	"simengine/types"
@@ -11,6 +12,15 @@ func handleSimulation(w http.ResponseWriter, r *http.Request) {
 
 	data := []byte(`{
 		"nodes": [
+			{
+				"id": "entry",
+				"type": "Entry",
+				"resources": {
+					"cpu": 0,
+					"memoryMB": 0,
+					"replicas": 1
+				}
+			},
 			{
 				"id": "lb-1",
 				"type": "LoadBalancer",
@@ -55,13 +65,24 @@ func handleSimulation(w http.ResponseWriter, r *http.Request) {
 					"memoryMB": 4096,
 					"replicas": 1
 				}
+			},
+			{
+				"id": "exit",
+				"type": "Exit",
+				"resources": {
+					"cpu": 0,
+					"memoryMB": 0,
+					"replicas": 1
+				}
 			}
 		],
 		"connections": [
+			{ "from": "entry", "to": "lb-1" },
 			{ "from": "lb-1", "to": "api-1" },
 			{ "from": "api-1", "to": "queue-1" },
 			{ "from": "queue-1", "to": "worker-1" },
-			{ "from": "worker-1", "to": "db-1" }
+			{ "from": "worker-1", "to": "db-1" },
+			{ "from": "db-1", "to": "exit" }
 		]
 	}`)
 
@@ -70,7 +91,8 @@ func handleSimulation(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	simulator.BuildGraph(design)
+	log.Print(simulator.BuildGraph(design))
+	log.Print(simulator.FindIsolatedNodes(design))
 
 	RespondWithJSON(w, 200, map[string]string{"msg":"done"})
 
