@@ -4,7 +4,7 @@ import (
 	"simengine/types"
 )
 
-func FindIsolatedNodes(design types.Design) (bool) {
+func ContainsIsolatedNodes(design types.Design) (bool) {
 	connected := make(map[string]struct{})
 
 	for _, conn := range design.Connections {
@@ -19,5 +19,5 @@ func FindIsolatedNodes(design types.Design) (bool) {
 		}
 	}
 
-	return len(isolated) == 0
+	return len(isolated) != 0
 }
