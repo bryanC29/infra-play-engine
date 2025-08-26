@@ -16,7 +16,7 @@ func NewRouter() http.Handler {
     r.Use(middleware.Recoverer)       // Catches panics and returns 500
     r.Use(middleware.Timeout(10 * 1e9)) // Optional: 10s timeout per request
 
-    r.Get("/simulate", handleSimulation)
+    r.Post("/simulate", handleSimulation)
 
     r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
         RespondWithJSON(w, http.StatusOK, map[string]string{"status": "ok"})
