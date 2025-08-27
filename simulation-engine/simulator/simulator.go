@@ -1,11 +1,11 @@
 package simulator
 
 import (
-	"log"
+	"fmt"
 	"simengine/types"
 )
 
-func SimulateGlobal(g *types.Graph, entryLoad float64) {
+func SimulateGlobal(g *types.Graph, entryLoad float64) types.QPSMetrics {
 	const QPSPerCPU = 250.0
 	const BaseLatencyPerNodeMs = 1.5
 
@@ -45,9 +45,11 @@ func SimulateGlobal(g *types.Graph, entryLoad float64) {
 			}
 		}
 	}
-
-	log.Print("SuccessQPS: ", load[g.Exit])
-	log.Print("FailedQPS:  ", totalFail)
-	log.Print("LatencyMs:  ", totalLatency / entryLoad)
-	log.Print("Availability:  ", (load[g.Exit] / entryLoad) * 100, "%")
+	
+	return types.QPSMetrics {
+    	Availability: fmt.Sprintf("%.2f%%", (load[g.Exit] / entryLoad) * 100),
+    	Latency:      totalLatency / entryLoad,
+    	Failed:       int(totalFail),
+    	Success:      int(load[g.Exit]),
+	}
 }

@@ -24,7 +24,12 @@ func handleSimulation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	simulator.EngineRun(problem.Design)
+	res, err := simulator.EngineRun(problem.Design)
 
-	RespondWithJSON(w, 200, map[string]string{"msg":"done"})
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	RespondWithJSON(w, 200, res)
 }
