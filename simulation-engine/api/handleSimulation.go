@@ -24,7 +24,7 @@ func handleSimulation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := simulator.EngineRun(problem.Design)
+	res, err := simulator.EngineRun(problem)
 
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, err.Error())

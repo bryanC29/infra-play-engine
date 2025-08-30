@@ -5,11 +5,11 @@ import (
 	"simengine/types"
 )
 
-func EngineRun(design types.Design) (types.Metrics, error) {
-	qps := float64(100)
+func EngineRun(problem types.Problem) (types.Metrics, error) {
+	qps := float64(problem.BaseQPS)
 	var res types.Metrics
-	result, err := BuildGraph(design)
-	disConn := ContainsIsolatedNodes(design)
+	result, err := BuildGraph(problem.Design)
+	disConn := ContainsIsolatedNodes(problem.Design)
 
 	if disConn {
 		return types.Metrics{}, fmt.Errorf("graph is disconnected")
