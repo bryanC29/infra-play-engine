@@ -1,7 +1,7 @@
 package simulator
 
 import (
-	"fmt"
+	"math"
 	"simengine/types"
 )
 
@@ -45,10 +45,12 @@ func SimulateGlobal(g *types.Graph, entryLoad float64) types.QPSMetrics {
 			}
 		}
 	}
+
+	latency := totalLatency / entryLoad
 	
 	return types.QPSMetrics {
-    	Availability: fmt.Sprintf("%.2f%%", (load[g.Exit] / entryLoad) * 100),
-    	Latency:      totalLatency / entryLoad,
+    	Availability: (load[g.Exit] / entryLoad) * 100,
+    	Latency:      math.Round(latency * 100) / 100,
     	Failed:       int(totalFail),
     	Success:      int(load[g.Exit]),
 	}

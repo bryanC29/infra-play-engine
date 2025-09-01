@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"simengine/metrics"
 	"simengine/simulator"
 	"simengine/types"
 
@@ -24,8 +25,15 @@ func handleSimulation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := simulator.EngineRun(problem)
+	metric, err := simulator.EngineRun(problem)
 
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	
+	res, err := metrics.MetricsAggregator(&metric)
+	
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
