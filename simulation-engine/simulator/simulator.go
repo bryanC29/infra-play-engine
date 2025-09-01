@@ -47,9 +47,10 @@ func SimulateGlobal(g *types.Graph, entryLoad float64) types.QPSMetrics {
 	}
 
 	latency := totalLatency / entryLoad
+	availability := (load[g.Exit] / entryLoad) * 100
 	
 	return types.QPSMetrics {
-    	Availability: (load[g.Exit] / entryLoad) * 100,
+    	Availability: math.Round(availability * 100) / 100,
     	Latency:      math.Round(latency * 100) / 100,
     	Failed:       int(totalFail),
     	Success:      int(load[g.Exit]),
