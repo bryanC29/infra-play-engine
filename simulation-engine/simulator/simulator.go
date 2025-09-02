@@ -5,7 +5,7 @@ import (
 	"simengine/types"
 )
 
-func SimulateGlobal(g *types.Graph, entryLoad float64) types.QPSMetrics {
+func SimulateGlobal(g *types.Graph, entryLoad float64) *types.QPSMetrics {
 	const QPSPerCPU = 250.0
 	const BaseLatencyPerNodeMs = 1.5
 
@@ -49,7 +49,7 @@ func SimulateGlobal(g *types.Graph, entryLoad float64) types.QPSMetrics {
 	latency := totalLatency / entryLoad
 	availability := (load[g.Exit] / entryLoad) * 100
 	
-	return types.QPSMetrics {
+	return &types.QPSMetrics {
     	Availability: math.Round(availability * 100) / 100,
     	Latency:      math.Round(latency * 100) / 100,
     	Failed:       int(totalFail),
