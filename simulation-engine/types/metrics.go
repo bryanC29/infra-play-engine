@@ -1,19 +1,19 @@
 package types
 
 type Metrics struct {
-	QPS1x  QPSMetrics `json:"1xQPS"`
-	QPS15x QPSMetrics `json:"1.5xQPS"`
-	QPS2x  QPSMetrics `json:"2xQPS"`
+	QPS1x  QPSMetrics `json:"qps1x"`
+	QPS15x QPSMetrics `json:"qps15x"`
+	QPS2x  QPSMetrics `json:"qps2x"`
 
-	AvgSuccess      float64 `json:"average success"`
-	AvgFailed       float64 `json:"average failed"`
-	AvgLatency      float64 `json:"average latency"`
-	AvgAvailability float64 `json:"average availability"`
+	AvgSuccess      float64 `json:"avgSuccess"`
+	AvgFailed       float64 `json:"avgFailed"`
+	AvgLatency      float64 `json:"avgLatency"`
+	AvgAvailability float64 `json:"avgAvail"`
 }
 
 type QPSMetrics struct {
-	Success      int
-	Failed       int
-	Latency      float64
-	Availability float64
+	Success      int     `json:"success"`
+	Failed       int     `json:"failed"`
+	Latency      float64 `json:"latency"`
+	Availability float64 `json:"avail"`
 }
