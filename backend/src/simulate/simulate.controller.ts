@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Req } from '@nestjs/common';
+import { Controller, HttpCode, Post, Req } from '@nestjs/common';
 import { SimulateService } from './simulate.service';
 import { Request } from 'express';
 
@@ -8,6 +8,7 @@ export class SimulateController {
   constructor(private readonly simService: SimulateService) {}
 
   @Post()
+  @HttpCode(200)
   async simulation(@Req() req: Request) {
     return await this.simService.handleSimulation(req);
   }
