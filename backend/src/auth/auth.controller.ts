@@ -2,6 +2,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -17,6 +18,7 @@ import { LocalAuthGuard } from './auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @HttpCode(HttpStatus.CREATED)
   @Post('register')
   async registerUser(@Body() body: RegisterDTO, @Res() res: Response) {
     return await this.authService.register(body, res);
@@ -27,5 +29,11 @@ export class AuthController {
   @Post('login')
   async loginUser(@Body() body: LoginDTO, @Res() res: Response) {
     return await this.authService.login(body, res);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get('logout')
+  logoutUser(@Res() res: Response) {
+    return this.authService.logout(res);
   }
 }

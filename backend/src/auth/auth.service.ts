@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, Res } from '@nestjs/common';
+import { HttpStatus, Injectable, Res } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Response } from 'express';
 import { Model } from 'mongoose';
@@ -82,5 +82,15 @@ export class AuthService {
     }
 
     return;
+  }
+
+  logout(@Res() res: Response) {
+    res.clearCookie('token');
+    res.setHeader('Authorization', 'Bearer null');
+    res.status(200).send({
+      error: '',
+      message: ['user logout seccessfully'],
+      statusCode: HttpStatus.OK,
+    });
   }
 }
